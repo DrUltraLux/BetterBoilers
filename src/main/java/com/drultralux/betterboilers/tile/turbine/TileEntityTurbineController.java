@@ -45,7 +45,8 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
     private List<BlockPos> currentAirBlocks = new ArrayList<>();
     private boolean structureValid = false;
     private double totalCaptureCapacity = 0;
-    private List<BlockPos> previousArmPositions = new ArrayList<>();
+    private List<BlockPos> previousControlledPositions = new ArrayList<>();
+    private List<BlockPos> scanControlledPositions;
 
     private boolean scanning = false;
     private EnumFacing scanShaftAxis;
@@ -95,6 +96,7 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
     public void update() {
         if (world.isRemote) return;
 
+        energyStorage.tick();
         tickTurbineScan();
 
         if (structureValid) {
@@ -129,13 +131,13 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
     }
 
     private void startTurbineScan() {
-        for (BlockPos p : previousArmPositions) {
+        for (BlockPos p : previousControlledPositions) {
             TileEntity te = world.getTileEntity(p);
             if (te instanceof TileEntityTurbinePart) {
                 ((TileEntityTurbinePart) te).setController(null);
             }
         }
-        previousArmPositions = new ArrayList<>();
+        previousControlledPositions = new ArrayList<>();
 
         EnumFacing axis = findShaftAxis();
         if (axis == null) {
@@ -148,7 +150,26 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
         scanWalked = 0;
         scanStages = new ArrayList<>();
         scanAirBlocks = new ArrayList<>();
+        scanControlledPositions = new ArrayList<>();
+
+        for (EnumFacing ef : EnumFacing.VALUES) {
+            if (ef == axis) continue;
+            BlockPos p = getPos().offset(ef);
+            if (world.getBlockState(p).getBlock() == ModBlocks.PRESSURE_VALVE) {
+                BBLog.debug("Turbine {} : found Pressure Valve at {}", getPos(), p);
+                registerControlledPart(p);
+            }
+        }
+
         scanning = true;
+    }
+
+    private void registerControlledPart(BlockPos p) {
+        TileEntity te = world.getTileEntity(p);
+        if (te instanceof TileEntityTurbinePart) {
+            ((TileEntityTurbinePart) te).setController(this);
+        }
+        scanControlledPositions.add(p);
     }
 
     private void stepTurbineScan() {
@@ -157,6 +178,7 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
 
         if (block == ModBlocks.POWER_TAP) {
             BBLog.debug("Turbine {} : Power Tap found at {}, finishing scan", getPos(), scanCursor);
+            registerControlledPart(scanCursor);
             finishTurbineScan();
             return;
         }
@@ -164,6 +186,8 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
             BBLog.debug("Turbine {} : expected Rotor or Power Tap at {} but found {} instead", getPos(), scanCursor, block.getRegistryName());
             throw new TurbineInvalidException("msg.bb.badTurbinePowerTap");
         }
+
+        registerControlledPart(scanCursor);
 
         scanWalked++;
         if (scanWalked > BBConfig.maxTurbineShaftLength) {
@@ -182,17 +206,12 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
             throw new TurbineInvalidException("msg.bb.noTurbineStages");
         }
 
-        List<BlockPos> newArmPositions = new ArrayList<>();
         for (TurbineStage stage : scanStages) {
             for (BlockPos p : stage.armPositions()) {
-                TileEntity te = world.getTileEntity(p);
-                if (te instanceof TileEntityTurbinePart) {
-                    ((TileEntityTurbinePart) te).setController(this);
-                }
-                newArmPositions.add(p);
+                registerControlledPart(p);
             }
         }
-        previousArmPositions = newArmPositions;
+        previousControlledPositions = scanControlledPositions;
 
         this.currentStages = scanStages;
         double captureSum = 0;
@@ -446,6 +465,7 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
         tag.setTag("SteamTank", tankSteam.writeToNBT(new NBTTagCompound()));
         NBTBase energyTag = CapabilityEnergy.ENERGY.getStorage().writeNBT(CapabilityEnergy.ENERGY, energyStorage, null);
         tag.setTag("energy", energyTag);
+        tag.setFloat("EnergyPerTick", energyStorage.getCurTransfer());
         return tag;
     }
 
@@ -460,6 +480,7 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
                 CapabilityEnergy.ENERGY.getStorage().readNBT(CapabilityEnergy.ENERGY, energyStorage, null, energyTag);
             } catch (Throwable t) {}
         }
+        energyStorage.setCurTransfer(compound.getFloat("EnergyPerTick"));
     }
 
     @Override
@@ -506,7 +527,7 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
         switch (id) {
             case 0: return energyStorage.getEnergyStored();
             case 1: return energyStorage.getMaxEnergyStored();
-            case 2: return (int) Math.round(totalCaptureCapacity);
+            case 2: return (int) (energyStorage.getCurTransfer() * 100);
             default: return 0;
         }
     }

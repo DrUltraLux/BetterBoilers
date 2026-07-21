@@ -30,6 +30,7 @@ public class BBConfig {
     public static int maxBlocksScannedPerTick = 64;
     public static double ironCoilEfficiency = 1.0;
     public static double goldCoilEfficiency = 1.5;
+    public static double turbineBaseCapturePerBlade = 2.0;
     public static int mBPerOpenTurbineSlot = 1000;
     public static int maxTurbineArmLength = 8;
     public static int maxTurbineShaftLength = 64;
@@ -92,6 +93,10 @@ public class BBConfig {
         p = configuration.get("TurbineUsage", "goldCoilEfficiency", goldCoilEfficiency,
                 "Output efficiency multiplier for Gold Coils. Higher tier than Iron.");
         goldCoilEfficiency = p.getDouble();
+
+        p = configuration.get("TurbineUsage", "turbineBaseCapturePerBlade", turbineBaseCapturePerBlade,
+                "Base steam-capture value contributed by each valid blade arm, before coil efficiency is applied. Scales overall turbine output up or down independent of coil tier ratios.");
+        turbineBaseCapturePerBlade = p.getDouble();
 
         p = configuration.get("TurbineUsage", "mBPerOpenTurbineSlot", mBPerOpenTurbineSlot,
                 "How much steam tank capacity (in mB) each open, uncovered slot around a 2-blade rotor stage contributes.");

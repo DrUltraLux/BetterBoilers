@@ -10,6 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends CommonProxy {
 
@@ -33,5 +35,11 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerItemRenderer(Item item, int meta, String id) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(new ResourceLocation(BetterBoilers.MODID, id), "inventory"));
+    }
+
+    @SubscribeEvent
+    public void onTextureStitch(TextureStitchEvent.Pre event) {
+        event.getMap().registerSprite(com.drultralux.betterboilers.block.ModBlocks.FLUID_STEAM.getStill());
+        event.getMap().registerSprite(com.drultralux.betterboilers.block.ModBlocks.FLUID_STEAM.getFlowing());
     }
 }

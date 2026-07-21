@@ -50,9 +50,13 @@ public class ObservableEnergyStorage extends EnergyStorage implements ITransferR
 
     public int generateEnergy(int maxReceive, boolean simulate) {
         int energyReceived = Math.min(capacity - energy, maxReceive);
-        if (!simulate)
+        if (!simulate) {
             energy += energyReceived;
-        if (!simulate && energyReceived!=0) markDirty();
+            if (energyReceived != 0) {
+                thisSegmentEnergy += energyReceived;
+                markDirty();
+            }
+        }
         return energyReceived;
     }
 
@@ -90,6 +94,10 @@ public class ObservableEnergyStorage extends EnergyStorage implements ITransferR
     @Override
     public float getCurTransfer() {
         return lastSegmentEnergyPerTick;
+    }
+
+    public void setCurTransfer(float value) {
+        this.lastSegmentEnergyPerTick = value;
     }
 
 }

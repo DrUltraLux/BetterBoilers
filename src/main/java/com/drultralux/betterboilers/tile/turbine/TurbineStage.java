@@ -1,5 +1,6 @@
 package com.drultralux.betterboilers.tile.turbine;
 
+import com.drultralux.betterboilers.util.BBConfig;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class TurbineStage {
     }
 
     public double captureCapacity() {
-        return (double) validArmCount * armLength;
+        return (double) validArmCount * armLength * BBConfig.turbineBaseCapturePerBlade;
     }
 
     public List<BlockPos> armPositions() {

@@ -125,10 +125,9 @@ public class FluidAccess implements IFluidTank, IFluidHandler {
 
                     @Override
                     public boolean canDrainFluidType(FluidStack fluidStack) {
-                        return
-                                fluidStack!=null &&
-                                        delegate.getFluid()!=null &&
-                                        delegate.getFluid().isFluidEqual(fluidStack);
+                        if (delegate.getFluid() == null) return false;
+                        if (fluidStack == null) return true;
+                        return delegate.getFluid().isFluidEqual(fluidStack);
                     }
 
                 }

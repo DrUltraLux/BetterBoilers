@@ -50,6 +50,7 @@ public class BetterBoilers {
         BBNetwork.init();
         BBLog.info("oooh, steamy! " + NAME + " is loading!");
         MinecraftForge.EVENT_BUS.register(new BBLogTickHandler());
+        MinecraftForge.EVENT_BUS.register(proxy);
         config = BBConfig.createConfig(event);
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new BBGuiHandler());

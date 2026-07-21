@@ -45,7 +45,7 @@ public class GuiTurbine extends GuiModular {
         BBGuiUtils.rect(STEAM_BAR, guiLeft + 36, guiTop + 22, 18, 4);
         BBGuiUtils.rect(STEAM_BAR, guiLeft + 36, guiTop + 66, 18, 4);
 
-        String rfPerTick = turbineContainer.turbine.getField(2) + " RF/t";
+        String rfPerTick = String.format("%.2f RF/t", turbineContainer.turbine.getField(2) / 100.0);
         fontRenderer.drawString(rfPerTick, guiLeft, guiTop + 9, 0xFF404040);
 
         fontRenderer.drawString(I18n.format("tile.betterboilers.turbine_controller.name"), guiLeft + 8, guiTop + 2, 0xFF404040);

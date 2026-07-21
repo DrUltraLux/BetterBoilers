@@ -1,0 +1,19 @@
+Better Boilers - Credits
+=========================
+
+Original creation:
+  Boundarybreaker, for elytra - original design and implementation of Better
+  Boilers. The project was relicensed to MIT and released for adoption in
+  2020 when active development stopped.
+
+Current maintainer:
+  DrUltraLux - adopted the project, revived and rebuilt it for a modern
+  Forge 1.12.2 toolchain, and substantially redesigned the turbine multiblock
+  and its mechanics.
+
+Third-party assets used under license:
+  - Turbine Shaft and Turbine Blade textures adapted from Gadgetry
+    (GadgetryMachines), used with permission and under Gadgetry's MIT License.
+
+Everything in this project is provided under the MIT License - see LICENSE
+for the full text.

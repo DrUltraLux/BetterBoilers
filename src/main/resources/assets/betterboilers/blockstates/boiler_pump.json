@@ -1,0 +1,33 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"side": "betterboilers:blocks/boiler-pump-side",
+			"end": "betterboilers:blocks/boiler-pump-top"
+		}
+	},
+	"variants": {
+		"is_brass": {
+			"true": {
+				"model": "minecraft:cube_column",
+				"textures": {
+					"side": "betterboilers:blocks/boiler-pump-side",
+					"end": "betterboilers:blocks/boiler-pump-top"
+				}
+			},
+			"false": {
+				"model": "minecraft:cube_column",
+				"textures": {
+					"side": "betterboilers:blocks/boiler-con-pump-side",
+					"end": "betterboilers:blocks/boiler-con-pump-top"
+				}
+			}
+		},
+		"normal": {
+			"model": "cube_column"
+		},
+		"inventory": {
+			"model": "cube_column"
+		}
+	}
+}

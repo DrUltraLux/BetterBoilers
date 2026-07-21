@@ -1,0 +1,23 @@
+# Changelog
+
+## Unreleased - Revival & Rebuild
+
+Major rebuild of the project after several years dormant. Highlights:
+
+- Ported to a current, actively-supported Forge 1.12.2 build; removed all
+  dependency on the abandoned Concrete library.
+- Reworked the entire Networking and event layers.
+- Reworked the multiblock scanning system to be event-triggered and
+  tick-budgeted instead of a blind periodic poll, fixing stale/incorrect
+  multiblock validity detection.
+- Completely redesigned the Turbine: new Shaft, Blade, and tiered Coil
+  (Iron/Gold, Copper with Immersive Engineering) blocks, replacing the old
+  vertical chamber/cap/gasket design with a scalable shaft-and-rotor-stage
+  system. Output now scales with blade count, coil tier, and actual steam
+  flow.
+- Rebuilt the GUI system on a shared, modular framework instead of one-off
+  screens per machine.
+- Normalized internal naming and package structure throughout.
+
+See commit history for full detail.
+

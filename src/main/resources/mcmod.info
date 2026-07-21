@@ -1,0 +1,16 @@
+[
+{
+  "modid": "betterboilers",
+  "name": "Better Boilers",
+  "description": "Semi-free-form multiblock steam boilers.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["DrUltraLux"],
+  "credits": "Originally created by Boundarybreaker for Elytra, adopted and continued by DrUltraLux",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

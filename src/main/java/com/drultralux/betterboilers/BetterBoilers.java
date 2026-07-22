@@ -4,6 +4,8 @@ import com.drultralux.betterboilers.client.framework.BBGuiHandler;
 import com.drultralux.betterboilers.container.BoilerContainer;
 import com.drultralux.betterboilers.container.TurbineContainer;
 import com.drultralux.betterboilers.network.BBNetwork;
+import com.drultralux.betterboilers.pipe.PipeNetworkManager;
+import com.drultralux.betterboilers.pipe.heat.HeatCapability;
 import com.drultralux.betterboilers.util.BBConfig;
 import com.drultralux.betterboilers.block.ModBlocks;
 import com.drultralux.betterboilers.client.BBTab;
@@ -51,6 +53,8 @@ public class BetterBoilers {
         BBLog.info("oooh, steamy! " + NAME + " is loading!");
         MinecraftForge.EVENT_BUS.register(new BBLogTickHandler());
         MinecraftForge.EVENT_BUS.register(proxy);
+        MinecraftForge.EVENT_BUS.register(PipeNetworkManager.INSTANCE);
+        HeatCapability.register();
         config = BBConfig.createConfig(event);
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new BBGuiHandler());

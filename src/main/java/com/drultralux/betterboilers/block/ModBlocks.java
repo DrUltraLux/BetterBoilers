@@ -3,6 +3,9 @@ package com.drultralux.betterboilers.block;
 import com.drultralux.betterboilers.block.boiler.*;
 import com.drultralux.betterboilers.block.fluids.BlockSteam;
 import com.drultralux.betterboilers.block.turbine.*;
+import com.drultralux.betterboilers.pipe.energy.BlockEnergyPipe;
+import com.drultralux.betterboilers.pipe.fluid.BlockFluidPipe;
+import com.drultralux.betterboilers.pipe.heat.BlockHeatPipe;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
@@ -29,6 +32,9 @@ public class ModBlocks {
     public static final BlockTurbinePressureValve PRESSURE_VALVE = new BlockTurbinePressureValve();
     public static final BlockTurbinePowerTap POWER_TAP = new BlockTurbinePowerTap(); //needs proper texture
     public static final BlockTurbineController TURBINE_CONTROLLER = new BlockTurbineController();
+    public static final BlockFluidPipe FLUID_PIPE = new BlockFluidPipe();
+    public static final BlockEnergyPipe ENERGY_PIPE = new BlockEnergyPipe();
+    public static final BlockHeatPipe HEAT_PIPE = new BlockHeatPipe();
 
     public static final Fluid FLUID_STEAM = new Fluid("steam",
             new ResourceLocation("betterboilers", "blocks/fluids/steam_still"),
@@ -38,7 +44,8 @@ public class ModBlocks {
             .setGaseous(true);
 
     public static IBlockBase[] allBlocks = {
-            BOILER, VALVE, VENT, PUMP, FIREBOX, HATCH, BOILER_CONTROLLER, CASING, SHAFT, PRESSURE_VALVE, POWER_TAP, TURBINE_CONTROLLER, BLADE, COIL_IRON, COIL_GOLD
+            BOILER, VALVE, VENT, PUMP, FIREBOX, HATCH, BOILER_CONTROLLER, CASING, SHAFT, PRESSURE_VALVE, POWER_TAP, TURBINE_CONTROLLER, BLADE, COIL_IRON, COIL_GOLD,
+            FLUID_PIPE, ENERGY_PIPE, HEAT_PIPE
     };
 
     public static void register(IForgeRegistry<Block> registry) {
@@ -67,6 +74,9 @@ public class ModBlocks {
         GameRegistry.registerTileEntity(TURBINE_CONTROLLER.getTileEntityClass(), TURBINE_CONTROLLER.getRegistryName().toString());
         GameRegistry.registerTileEntity(BLADE.getTileEntityClass(), BLADE.getRegistryName().toString());
         GameRegistry.registerTileEntity(COIL_IRON.getTileEntityClass(), COIL_IRON.getRegistryName().toString());
+        GameRegistry.registerTileEntity(FLUID_PIPE.getTileEntityClass(), FLUID_PIPE.getRegistryName().toString());
+        GameRegistry.registerTileEntity(ENERGY_PIPE.getTileEntityClass(), ENERGY_PIPE.getRegistryName().toString());
+        GameRegistry.registerTileEntity(HEAT_PIPE.getTileEntityClass(), HEAT_PIPE.getRegistryName().toString());
 
     }
 

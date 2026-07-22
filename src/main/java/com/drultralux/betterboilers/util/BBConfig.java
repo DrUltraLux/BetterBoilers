@@ -36,6 +36,15 @@ public class BBConfig {
     public static int maxTurbineShaftLength = 64;
     public static int maxTurbineSliceAirBlocks = 400;
 
+    public static int pipeRebuildBlocksPerTick = 256;
+    public static int pipeDistributeBudgetPerTick = 64;
+    public static int fluidPipeCapacityPerSegment = 1000;
+    public static int fluidPipeMaxTransferPerTick = 4000;
+    public static int energyPipeCapacityPerSegment = 4000;
+    public static int energyPipeMaxTransferPerTick = 4000;
+    public static int heatPipeCapacityPerSegment = 1000;
+    public static int heatPipeMaxTransferPerTick = 4000;
+
     private BBConfig(File configFile) {
         this.configuration = new Configuration(configFile);
         this.configFolder = configFile.getParentFile();
@@ -129,6 +138,38 @@ public class BBConfig {
         p = configuration.get("Logging", "logDedupWindowTicks", logDedupWindowTicks,
                 "How many ticks an identical repeated log message is suppressed for before being collapsed into a single '[repeated Nx]' summary line.");
         logDedupWindowTicks = p.getInt();
+
+        p = configuration.get("PipeNetworks", "pipeRebuildBlocksPerTick", pipeRebuildBlocksPerTick,
+                "Total pipe blocks (across all in-progress network rebuilds combined) that may be visited per tick. A rebuild that exceeds this resumes next tick instead of spiking the tick it started on.");
+        pipeRebuildBlocksPerTick = p.getInt();
+
+        p = configuration.get("PipeNetworks", "pipeDistributeBudgetPerTick", pipeDistributeBudgetPerTick,
+                "Maximum number of active pipe networks (per type) that run their distribute() step per tick. A round-robin cursor ensures none starve if there are more active networks than this budget allows in one tick.");
+        pipeDistributeBudgetPerTick = p.getInt();
+
+        p = configuration.get("PipeNetworks", "fluidPipeCapacityPerSegment", fluidPipeCapacityPerSegment,
+                "mB of fluid capacity contributed by each pipe segment in a fluid network. Total network capacity is this times the network's member count.");
+        fluidPipeCapacityPerSegment = p.getInt();
+
+        p = configuration.get("PipeNetworks", "fluidPipeMaxTransferPerTick", fluidPipeMaxTransferPerTick,
+                "Maximum mB a single fluid network may pull in and push out per tick, combined, regardless of network size.");
+        fluidPipeMaxTransferPerTick = p.getInt();
+
+        p = configuration.get("PipeNetworks", "energyPipeCapacityPerSegment", energyPipeCapacityPerSegment,
+                "RF of energy capacity contributed by each pipe segment in an energy network. Total network capacity is this times the network's member count.");
+        energyPipeCapacityPerSegment = p.getInt();
+
+        p = configuration.get("PipeNetworks", "energyPipeMaxTransferPerTick", energyPipeMaxTransferPerTick,
+                "Maximum RF a single energy network may pull in and push out per tick, combined, regardless of network size.");
+        energyPipeMaxTransferPerTick = p.getInt();
+
+        p = configuration.get("PipeNetworks", "heatPipeCapacityPerSegment", heatPipeCapacityPerSegment,
+                "Heat unit capacity contributed by each pipe segment in a heat network. Total network capacity is this times the network's member count. No heat sources/sinks exist yet - this is transport-layer prep for the future heat system.");
+        heatPipeCapacityPerSegment = p.getInt();
+
+        p = configuration.get("PipeNetworks", "heatPipeMaxTransferPerTick", heatPipeMaxTransferPerTick,
+                "Maximum heat units a single heat network may pull in and push out per tick, combined, regardless of network size.");
+        heatPipeMaxTransferPerTick = p.getInt();
 
         if (configuration.hasChanged()) {
             configuration.save();

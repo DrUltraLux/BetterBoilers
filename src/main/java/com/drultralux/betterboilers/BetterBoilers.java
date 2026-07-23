@@ -12,6 +12,7 @@ import com.drultralux.betterboilers.client.BBTab;
 import com.drultralux.betterboilers.item.ModItems;
 import com.drultralux.betterboilers.proxy.CommonProxy;
 import com.drultralux.betterboilers.log.BBLogTickHandler;
+import com.drultralux.betterboilers.container.FurnaceContainer;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -59,6 +60,7 @@ public class BetterBoilers {
 
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new BBGuiHandler());
         BBGuiHandler.registerGui(new BoilerContainer.Factory());
+        BBGuiHandler.registerGui(new FurnaceContainer.Factory());
         BBGuiHandler.registerGui(new TurbineContainer.Factory());
         proxy.preInit();
     }

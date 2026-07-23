@@ -6,10 +6,11 @@ fluid.steam=Steam
 tile.betterboilers.boiler.name=Boiler Block
 tile.betterboilers.boiler_valve.name=Boiler Valve
 tile.betterboilers.boiler_vent.name=Boiler Vent
-tile.betterboilers.boiler_pump.name=Boiler Pump
 tile.betterboilers.firebox.name=Firebox
 tile.betterboilers.firebox_hatch.name=Firebox Hatch
 tile.betterboilers.boiler_controller.name=Boiler Controller
+tile.betterboilers.furnace_controller.name=Furnace Controller
+tile.betterboilers.heat_sink.name=Heat Sink
 tile.betterboilers.turbine_casing.name=Turbine Casing
 tile.betterboilers.turbine_shaft.name=Turbine Shaft
 tile.betterboilers.turbine_pressure_valve.name=Turbine Pressure Valve
@@ -18,6 +19,9 @@ tile.betterboilers.turbine_controller.name=Turbine Controller
 tile.betterboilers.turbine_blade.name=Turbine Blade
 tile.betterboilers.turbine_coil_iron.name=Iron Coil
 tile.betterboilers.turbine_coil_gold.name=Gold Coil
+tile.betterboilers.fluid_pipe.name=Fluid Pipe
+tile.betterboilers.energy_pipe.name=Energy Pipe
+tile.betterboilers.heat_pipe.name=Heat Pipe
 
 itemGroup.betterboilers=Better Boilers
 
@@ -25,8 +29,6 @@ itemGroup.betterboilers=Better Boilers
 tooltip.bb.inspector.0=What did you do this time?
 tooltip.bb.inspector.1=Sneak-use on a controller to check a boiler's status.
 #tooltip.bb.inspector.1=Use in the air to check the manual. (NYI)
-tooltip.bb.boiler_pump.0=Continuous steam production and auto-eject!
-tooltip.bb.boiler_pump.1=However, results in lower overall production rates.
 
 #temp tooltips for NYI stuff
 tooltip.bb.turbine_controller.0=It works, I promise!
@@ -44,7 +46,10 @@ tooltip.bb.turbine_cap.1=Recipes and some textures (including this one) are NYI,
 
 msg.bb.tooBig=Multiblock too big. (default max size 1000)
 msg.bb.tooSmall=Multiblock too small. (default min size 36)
+msg.bb.needsFirebox=Needs at least one Firebox block.
+msg.bb.needsTankParts=Needs at least one Boiler, Valve, and Vent block.
 msg.bb.badBoilerController=Misplaced controller. (must be on firebox level)
+msg.bb.badFurnaceController=Misplaced controller. (must be on the bottom level of the firebox)
 msg.bb.tooManyControllers=Multiple controllers. (only one controller per multiblock)
 msg.bb.badBoiler=Misplaced boiler component. (no boiler components on firebox level)
 msg.bb.badFirebox=Misplaced firebox component. (firebox components only on the bottom level)
@@ -61,5 +66,3 @@ msg.bb.turbineSliceUnsealed=A rotor slice's air pocket is not fully sealed or is
 msg.bb.turbineFluidContamination=Water or lava detected inside the turbine cavity. Clear it out.
 
 msg.bb.notYetScanned=Not yet scanned...
-
-

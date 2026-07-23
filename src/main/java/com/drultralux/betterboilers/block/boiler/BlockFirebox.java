@@ -8,7 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.world.World;
 
 //What does this even do?? o.O
-public class BlockFirebox extends BlockTileEntity<TileEntityFireboxBlock> implements IBoilerBlock {
+public class BlockFirebox extends BlockTileEntity<TileEntityFireboxBlock> implements IBoilerBlock, IFurnaceBlock {
 
     protected String name;
 

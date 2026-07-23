@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class BlockBoiler extends BlockTileEntity<TileEntityBoilerBlock> implements IBoilerBlock {
+public class BlockBoiler extends BlockTileEntity<TileEntityBoilerBlock> implements IBoilerBlock, ITankBlock {
 
     protected String name;
     public static PropertyBool IS_BRASS= PropertyBool.create("is_brass");

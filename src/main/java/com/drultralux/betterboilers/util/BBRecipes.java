@@ -60,11 +60,6 @@ public class BBRecipes {
                 'i', new ItemStack(Items.IRON_INGOT),
                 'u', new ItemStack(Blocks.IRON_BARS)
         ));
-        recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.PUMP, 1),
-                "ibi",
-                'b', new ItemStack(ModBlocks.VENT),
-                'i', new ItemStack(Blocks.PISTON)
-        ));
         recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.FIREBOX, 8),
                 " b ", "bib", " b ",
                 'b', new ItemStack(Items.BRICK),
@@ -87,6 +82,38 @@ public class BBRecipes {
                 'b', new ItemStack(Items.BOOK),
                 'i', new ItemStack(Items.IRON_INGOT),
                 'u', new ItemStack(Items.FLINT)
+        ));
+
+        // Firebox-only multiblock controller - takes over the recipe role the old combined
+        // BOILER_CONTROLLER used to have, since it's the same physical position/purpose.
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.FURNACE_CONTROLLER, 1),
+                "ibi", "bub", "ibi",
+                'b', new ItemStack(ModBlocks.FIREBOX),
+                'i', new ItemStack(Items.IRON_INGOT),
+                'u', new ItemStack(Items.BLAZE_POWDER)
+        ));
+
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.HEAT_SINK, 2),
+                "iii", "ubu", "iii",
+                'i', new ItemStack(Items.IRON_INGOT),
+                'u', new ItemStack(Items.BLAZE_POWDER),
+                'b', new ItemStack(Items.NETHERBRICK)
+        ));
+
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.FLUID_PIPE, 4),
+                "iii",
+                'i', new ItemStack(Items.IRON_INGOT)
+        ));
+
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.ENERGY_PIPE, 4),
+                "iii",
+                'i', new ItemStack(Items.GOLD_INGOT)
+        ));
+
+        recipe(r, new ShapedOreRecipe(new ResourceLocation("betterboilers:blocks"), new ItemStack(ModBlocks.HEAT_PIPE, 4),
+                "ibi",
+                'i', new ItemStack(Items.IRON_INGOT),
+                'b', new ItemStack(Items.BLAZE_POWDER)
         ));
     }
 

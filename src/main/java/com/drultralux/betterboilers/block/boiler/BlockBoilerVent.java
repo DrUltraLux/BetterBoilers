@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 //
-public class BlockBoilerVent extends BlockTileEntity<TileEntityBoilerVent> implements IBoilerBlock {
+public class BlockBoilerVent extends BlockTileEntity<TileEntityBoilerVent> implements IBoilerBlock, ITankBlock {
 
     protected String name;
     public static PropertyBool IS_BRASS= PropertyBool.create("is_brass");

@@ -7,7 +7,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 import net.minecraft.util.EnumFacing;
 
-public class TileEntityBoilerFireboxHatch extends TileEntityBoilerPart {
+public class TileEntityBoilerFireboxHatch extends TileEntityFurnacePart {   // was: extends TileEntityBoilerPart
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
@@ -20,11 +20,10 @@ public class TileEntityBoilerFireboxHatch extends TileEntityBoilerPart {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         if (getController()==null) return null;
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) getController().getInv();
+            return castCapabilityHandler(getController().getInv());
         } else {
             return super.getCapability(capability, facing);
         }

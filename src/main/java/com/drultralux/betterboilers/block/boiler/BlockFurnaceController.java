@@ -2,8 +2,8 @@ package com.drultralux.betterboilers.block.boiler;
 
 import com.drultralux.betterboilers.BetterBoilers;
 import com.drultralux.betterboilers.block.BlockTileEntity;
+import com.drultralux.betterboilers.tile.boiler.TileEntityFurnaceController;
 import com.drultralux.betterboilers.client.framework.BBGuiHandler;
-import com.drultralux.betterboilers.tile.boiler.TileEntityBoilerController;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -14,47 +14,44 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class BlockBoilerController extends BlockTileEntity<TileEntityBoilerController> implements IBoilerBlock, ITankBlock {
+public class BlockFurnaceController extends BlockTileEntity<TileEntityFurnaceController> implements IBoilerBlock, IFurnaceBlock {
 
-    protected String name;
     public static PropertyBool ACTIVE = PropertyBool.create("active");
 
-    public BlockBoilerController() {
-        super(Material.ROCK, "controller");
-        setUnlocalizedName(BetterBoilers.MODID + ".boiler_controller");
-//        this.setDefaultState(blockState.getBaseState().withProperty(ACTIVE, false));
-
+    public BlockFurnaceController() {
+        super(Material.ROCK, "furnace_controller");
+        setUnlocalizedName(BetterBoilers.MODID + ".furnace_controller");
         setCreativeTab(BetterBoilers.creativeTab);
     }
 
     @Override
-    public BlockStateContainer createBlockState(){
+    public BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, ACTIVE);
     }
 
-    public int getMetaFromState(IBlockState state){
+    public int getMetaFromState(IBlockState state) {
         return state.getValue(ACTIVE) ? 1 : 0;
     }
 
-    public IBlockState getStateFromMeta(int meta){
+    public IBlockState getStateFromMeta(int meta) {
         return getDefaultState().withProperty(ACTIVE, meta == 1);
     }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if(!world.isRemote && !player.isSneaking()) {
-            player.openGui(BetterBoilers.instance, BBGuiHandler.getGuiId("boiler_controller"), world, pos.getX(), pos.getY(), pos.getZ());
+        if (!world.isRemote && !player.isSneaking()) {
+            player.openGui(BetterBoilers.instance, BBGuiHandler.getGuiId("furnace_controller"), world, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
 
     @Override
-    public Class<TileEntityBoilerController> getTileEntityClass() {
-        return TileEntityBoilerController.class;
+    public Class<TileEntityFurnaceController> getTileEntityClass() {
+        return TileEntityFurnaceController.class;
     }
 
     @Override
-    public TileEntityBoilerController createTileEntity(World world, IBlockState state) {
-        return new TileEntityBoilerController();
+    public TileEntityFurnaceController createTileEntity(World world, IBlockState state) {
+        return new TileEntityFurnaceController();
     }
 }

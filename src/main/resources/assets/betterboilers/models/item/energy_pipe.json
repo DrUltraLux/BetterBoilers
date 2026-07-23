@@ -1,0 +1,7 @@
+{
+  "parent": "betterboilers:item/pipe",
+  "textures": {
+    "particle": "betterboilers:blocks/energy_pipe",
+    "pipe": "betterboilers:blocks/energy_pipe"
+  }
+}

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 //Needs to become a ConnectedBlock so that pipes etc. visually connect to it.
-public class BlockBoilerValve extends BlockTileEntity<TileEntityBoilerValve> implements IBoilerBlock {
+public class BlockBoilerValve extends BlockTileEntity<TileEntityBoilerValve> implements IBoilerBlock, ITankBlock {
 
     protected String name;
     public static PropertyBool IS_BRASS= PropertyBool.create("is_brass");

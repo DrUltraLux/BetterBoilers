@@ -71,7 +71,16 @@ public class TileEntityTurbineController extends TileEntityMultiblockController 
         this.tankSteam = new FluidTank(0) {
             @Override
             public boolean canFillFluidType(FluidStack fluid) {
-                return fluid != null && fluid.getFluid() == ModBlocks.FLUID_STEAM;
+                if (fluid == null || fluid.getFluid() == null) {
+                    return false;
+                }
+                // Compare by registry name rather than object reference - if another mod also
+                // registers a fluid named "steam" (Railcraft does), FluidRegistry keeps only one
+                // canonical instance per name, and a FluidStack reconstructed anywhere via NBT
+                // (chunk load, network sync) may carry that other mod's Fluid object even though
+                // the name still matches ours. A "==" check against ModBlocks.FLUID_STEAM would
+                // then silently and permanently reject genuine steam.
+                return ModBlocks.FLUID_STEAM.getName().equals(fluid.getFluid().getName());
             }
 
             @Override

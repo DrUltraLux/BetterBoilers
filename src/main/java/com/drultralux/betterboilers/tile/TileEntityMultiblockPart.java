@@ -1,13 +1,19 @@
 package com.drultralux.betterboilers.tile;
 
 import com.drultralux.betterboilers.BBLog;
+import com.google.common.base.Predicates;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.chunk.Chunk;
 
 public abstract class TileEntityMultiblockPart<T extends TileEntityMultiblockController> extends TileEntity implements IMultiblockPart, IControlledPart<T> {
     private T controller;
@@ -34,6 +40,49 @@ public abstract class TileEntityMultiblockPart<T extends TileEntityMultiblockCon
                     compound.getInteger("ControllerOffsetX"),
                     compound.getInteger("ControllerOffsetY"),
                     compound.getInteger("ControllerOffsetZ"));
+        } else {
+            controllerPos = null;
+        }
+    }
+
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        return writeToNBT(new NBTTagCompound());
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
+    }
+
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        readFromNBT(tag);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+        handleUpdateTag(pkt.getNbtCompound());
+    }
+
+    /**
+     * Explicitly pushes this part's current controllerPos to nearby players, mirroring the
+     * pattern the controllers themselves already use. Without this, a part's client-side copy
+     * never learns which controller it belongs to until its chunk happens to fully reload from
+     * scratch - a plain markDirty() call does NOT trigger tile-entity network sync by itself, so
+     * a pipe's connected-geometry check (which reads getController() on the client to decide
+     * whether to draw a connection arm toward this block) would see a stale, permanently-null
+     * controller even though the block is fully functional server-side.
+     */
+    private void syncToNearbyPlayers() {
+        if (!hasWorld() || getWorld().isRemote) return;
+        WorldServer ws = (WorldServer) getWorld();
+        Chunk c = getWorld().getChunkFromBlockCoords(getPos());
+        SPacketUpdateTileEntity packet = new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
+        for (EntityPlayerMP player : getWorld().getPlayers(EntityPlayerMP.class, Predicates.alwaysTrue())) {
+            if (ws.getPlayerChunkMap().isPlayerWatchingChunk(player, c.x, c.z)) {
+                player.connection.sendPacket(packet);
+            }
         }
     }
 
@@ -67,6 +116,7 @@ public abstract class TileEntityMultiblockPart<T extends TileEntityMultiblockCon
             controllerPos = controller.getPos().subtract(getPos());
         }
         this.controller = controller;
+        syncToNearbyPlayers();
     }
 
     @Override
@@ -79,5 +129,18 @@ public abstract class TileEntityMultiblockPart<T extends TileEntityMultiblockCon
         if (hasController()) {
             getController().requestRescan();
         }
+    }
+
+    /**
+     * Java's type system cannot prove that a Forge capability-token equality check
+     * (capability == SomeCapability.INSTANCE) implies T equals the concrete handler type - that
+     * link only exists at runtime, once the token comparison has already passed. This is the
+     * single, deliberately isolated place in a part tile's getCapability() where an unchecked
+     * cast is unavoidable. Mirrors TileEntityMultiblockController.castCapabilityHandler() for the
+     * same reason, kept separate since parts and controllers don't share a common ancestor.
+     */
+    @SuppressWarnings("unchecked")
+    protected static <R> R castCapabilityHandler(Object handler) {
+        return (R) handler;
     }
 }

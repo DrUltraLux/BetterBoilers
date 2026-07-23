@@ -1,0 +1,33 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "betterboilers:blocks/heat_sink_off"
+    }
+  },
+  "variants": {
+    "active": {
+      "true": {
+        "model": "cube_all",
+        "textures": {
+          "all": "betterboilers:blocks/heat_sink_on"
+        }
+      },
+      "false": {
+        "model": "cube_all",
+        "textures": {
+          "all": "betterboilers:blocks/heat_sink_off"
+        }
+      }
+    },
+    "normal": {
+      "model": "cube_all"
+    },
+    "inventory": {
+      "model": "cube_all",
+      "textures": {
+        "all": "betterboilers:blocks/heat_sink_on"
+      }
+    }
+  }
+}

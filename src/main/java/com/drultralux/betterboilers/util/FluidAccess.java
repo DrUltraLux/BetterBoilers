@@ -5,6 +5,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import com.drultralux.betterboilers.BBLog;
 
 public class FluidAccess implements IFluidTank, IFluidHandler {
     private final IFluidTank delegate;
@@ -66,8 +67,17 @@ public class FluidAccess implements IFluidTank, IFluidHandler {
     @Override
     public int fill(FluidStack resource, boolean doFill) {
         if (canInsert) {
-            return delegate.fill(resource, doFill);
+            int filled = delegate.fill(resource, doFill);
+            BBLog.debug("FluidAccess.fill: resourceAmount={}, resourceFluid={}, doFill={}, canInsert=true, tankCapacity={}, tankAmountBefore={}, tankFluidBefore={}, filled={}",
+                    resource == null ? "null" : resource.amount,
+                    resource == null || resource.getFluid() == null ? "null" : resource.getFluid().getName(),
+                    doFill, delegate.getCapacity(), delegate.getFluidAmount(),
+                    delegate.getFluid() == null ? "null" : delegate.getFluid().getFluid().getName(),
+                    filled);
+            return filled;
         } else {
+            BBLog.debug("FluidAccess.fill: resourceAmount={}, doFill={}, canInsert=false - rejected",
+                    resource == null ? "null" : resource.amount, doFill);
             return 0;
         }
     }
@@ -75,17 +85,31 @@ public class FluidAccess implements IFluidTank, IFluidHandler {
     @Override
     public FluidStack drain(int maxDrain, boolean doDrain) {
         if (canExtract) {
-            return delegate.drain(maxDrain, doDrain);
+            FluidStack drained = delegate.drain(maxDrain, doDrain);
+            BBLog.debug("FluidAccess.drain(int): maxDrain={}, doDrain={}, canExtract=true, tankAmountBefore={}, tankFluidBefore={}, drainedAmount={}",
+                    maxDrain, doDrain, delegate.getFluidAmount(),
+                    delegate.getFluid() == null ? "null" : delegate.getFluid().getFluid().getName(),
+                    drained == null ? "null" : drained.amount);
+            return drained;
         } else {
-            return null; //XXX: As soon as Forge fixes things so that empty fluidStacks aren't null, get rid of the nulls
+            BBLog.debug("FluidAccess.drain(int): maxDrain={}, doDrain={}, canExtract=false - rejected", maxDrain, doDrain);
+            return null;
         }
     }
 
     @Override
     public FluidStack drain(FluidStack resource, boolean doDrain) {
         if (delegate.getFluid()!=null && resource!=null && delegate.getFluid().isFluidEqual(resource)) {
-            return drain(resource.amount, doDrain);
+            FluidStack drained = drain(resource.amount, doDrain);
+            BBLog.debug("FluidAccess.drain(FluidStack): resourceAmount={}, resourceFluid={}, doDrain={}, tankFluidBefore={}, drainedAmount={}",
+                    resource.amount, resource.getFluid() == null ? "null" : resource.getFluid().getName(), doDrain,
+                    delegate.getFluid() == null ? "null" : delegate.getFluid().getFluid().getName(),
+                    drained == null ? "null" : drained.amount);
+            return drained;
         } else {
+            BBLog.debug("FluidAccess.drain(FluidStack): resourceAmount={}, doDrain={}, rejected - tank empty, resource null, or fluid type mismatch (tankFluid={})",
+                    resource == null ? "null" : resource.amount, doDrain,
+                    delegate.getFluid() == null ? "null" : delegate.getFluid().getFluid().getName());
             return null;//XXX: As soon as Forge fixes things so that empty fluidStacks aren't null, get rid of the nulls
         }
     }

@@ -162,6 +162,21 @@ public abstract class TileEntityMultiblockController extends TileEntity implemen
         BBNetwork.sendToPlayer(player, "controller_status", payload);
     }
 
+    /**
+     * Java's type system cannot prove that a Forge capability-token equality check
+     * (capability == SomeCapability.INSTANCE) implies T equals the concrete handler type - that
+     * link only exists at runtime, once the token comparison has already passed. This is the
+     * single, deliberately isolated place in a controller's getCapability() where an unchecked
+     * cast is unavoidable - every call site using it has already validated the capability token
+     * (and the handler's non-nullness, where relevant) before reaching this line. Mirrors
+     * TileEntityPipe.castCapabilityHandler() for the same reason, kept separate since pipes and
+     * multiblock controllers don't share a common ancestor.
+     */
+    @SuppressWarnings("unchecked")
+    protected static <T> T castCapabilityHandler(Object handler) {
+        return (T) handler;
+    }
+
     public void setControllerStatus(ControllerStatus state, String status) { }
 
     public abstract void onAssemble(World world, List<BlockPos> blocks);

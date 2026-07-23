@@ -2,7 +2,7 @@ Better Boilers - Credits
 =========================
 
 Original creation:
-  Boundarybreaker, for elytra - original design and implementation of Better
+  Boundarybreaker/LemmaEOF, for elytra - original design and implementation of Better
   Boilers. The project was relicensed to MIT and released for adoption in
   2020 when active development stopped.
 
@@ -14,6 +14,12 @@ Current maintainer:
 Third-party assets used under license:
   - Turbine Shaft and Turbine Blade textures adapted from Gadgetry
     (GadgetryMachines), used with permission and under Gadgetry's MIT License.
+  - Fluid Pipe, Energy Pipe, and Heat Pipe textures adapted from Gadgetry
+    (GadgetryTransmission's fluid_pipe/item_pipe/energy_cable textures), used
+    with permission and under Gadgetry's MIT License.
+  - Heat Sink active/inactive textures adapted from Gadgetry
+    (GadgetryMachines' geothermal_gen_on/geothermal_gen_off textures), used
+    with permission and under Gadgetry's MIT License.
 
 Everything in this project is provided under the MIT License - see LICENSE
 for the full text.

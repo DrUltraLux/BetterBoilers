@@ -2,6 +2,7 @@ package com.drultralux.betterboilers.block;
 
 import com.drultralux.betterboilers.block.boiler.*;
 import com.drultralux.betterboilers.block.fluids.BlockSteam;
+import com.drultralux.betterboilers.block.heat.BlockHeatSink;
 import com.drultralux.betterboilers.block.turbine.*;
 import com.drultralux.betterboilers.pipe.energy.BlockEnergyPipe;
 import com.drultralux.betterboilers.pipe.fluid.BlockFluidPipe;
@@ -20,10 +21,11 @@ public class ModBlocks {
     public static final BlockBoiler BOILER = new BlockBoiler(Material.IRON, "boiler");
     public static final BlockBoilerValve VALVE = new BlockBoilerValve();
     public static final BlockBoilerVent VENT = new BlockBoilerVent();
-    public static final BlockBoilerPump PUMP = new BlockBoilerPump();
     public static final BlockFirebox FIREBOX = new BlockFirebox(Material.ROCK, "firebox");
     public static final BlockFireboxHatch HATCH = new BlockFireboxHatch();
     public static final BlockBoilerController BOILER_CONTROLLER = new BlockBoilerController();
+    public static final BlockFurnaceController FURNACE_CONTROLLER = new BlockFurnaceController();
+    public static final BlockHeatSink HEAT_SINK = new BlockHeatSink();
     public static final BlockTurbineBlade BLADE = new BlockTurbineBlade();
     public static final BlockTurbineCoilIron COIL_IRON = new BlockTurbineCoilIron();
     public static final BlockTurbineCoilGold COIL_GOLD = new BlockTurbineCoilGold();
@@ -44,8 +46,8 @@ public class ModBlocks {
             .setGaseous(true);
 
     public static IBlockBase[] allBlocks = {
-            BOILER, VALVE, VENT, PUMP, FIREBOX, HATCH, BOILER_CONTROLLER, CASING, SHAFT, PRESSURE_VALVE, POWER_TAP, TURBINE_CONTROLLER, BLADE, COIL_IRON, COIL_GOLD,
-            FLUID_PIPE, ENERGY_PIPE, HEAT_PIPE
+            BOILER, VALVE, VENT, FIREBOX, HATCH, BOILER_CONTROLLER, FURNACE_CONTROLLER, CASING, SHAFT, PRESSURE_VALVE, POWER_TAP, TURBINE_CONTROLLER, BLADE, COIL_IRON, COIL_GOLD,
+            FLUID_PIPE, ENERGY_PIPE, HEAT_PIPE, HEAT_SINK
     };
 
     public static void register(IForgeRegistry<Block> registry) {
@@ -63,10 +65,11 @@ public class ModBlocks {
         GameRegistry.registerTileEntity(BOILER.getTileEntityClass(), BOILER.getRegistryName().toString());
         GameRegistry.registerTileEntity(VALVE.getTileEntityClass(), VALVE.getRegistryName().toString());
         GameRegistry.registerTileEntity(VENT.getTileEntityClass(), VENT.getRegistryName().toString());
-        GameRegistry.registerTileEntity(PUMP.getTileEntityClass(), PUMP.getRegistryName().toString());
         GameRegistry.registerTileEntity(FIREBOX.getTileEntityClass(), FIREBOX.getRegistryName().toString());
         GameRegistry.registerTileEntity(HATCH.getTileEntityClass(), HATCH.getRegistryName().toString());
         GameRegistry.registerTileEntity(BOILER_CONTROLLER.getTileEntityClass(), BOILER_CONTROLLER.getRegistryName().toString());
+        GameRegistry.registerTileEntity(FURNACE_CONTROLLER.getTileEntityClass(), FURNACE_CONTROLLER.getRegistryName().toString());
+        GameRegistry.registerTileEntity(HEAT_SINK.getTileEntityClass(), HEAT_SINK.getRegistryName().toString());
         GameRegistry.registerTileEntity(CASING.getTileEntityClass(), CASING.getRegistryName().toString());
         GameRegistry.registerTileEntity(SHAFT.getTileEntityClass(), SHAFT.getRegistryName().toString());
         GameRegistry.registerTileEntity(PRESSURE_VALVE.getTileEntityClass(), PRESSURE_VALVE.getRegistryName().toString());

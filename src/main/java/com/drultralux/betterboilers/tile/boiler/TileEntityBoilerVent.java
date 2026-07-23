@@ -2,6 +2,7 @@ package com.drultralux.betterboilers.tile.boiler;
 
 import javax.annotation.Nullable;
 
+import com.drultralux.betterboilers.BBLog;
 import com.drultralux.betterboilers.util.FluidAccess;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -12,7 +13,10 @@ public class TileEntityBoilerVent extends TileEntityBoilerPart {
 
     @Override
     public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-        if (getController()==null) return false; //!important
+        if (getController()==null) {
+            BBLog.debug("Vent at {} has no controller yet - hasCapability rejected", getPos());
+            return false; //!important
+        }
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return true;
         } else {
@@ -23,8 +27,12 @@ public class TileEntityBoilerVent extends TileEntityBoilerPart {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-        if (getController()==null) return null; //!important
+        if (getController()==null) {
+            BBLog.debug("Vent at {} has no controller yet - getCapability rejected", getPos());
+            return null; //!important
+        }
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            BBLog.debug("Vent at {} exposing steam tank, currently holding {}", getPos(), getController().getTankSteam().getFluid());
             return (T) FluidAccess.extractOnly(getController().getTankSteam());
         } else {
             return super.getCapability(capability, facing);

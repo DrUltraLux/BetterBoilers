@@ -1,0 +1,33 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "betterboilers:fluid_pipe_center"
+  },
+  "variants": {
+    "north": {
+      "true": { "submodel": { "bar_n": { "model": "betterboilers:fluid_pipe_connection", "x": 90 } } },
+      "false": {}
+    },
+    "east": {
+      "true": { "submodel": { "bar_e": { "model": "betterboilers:fluid_pipe_connection", "x": 90, "y": 90 } } },
+      "false": {}
+    },
+    "south": {
+      "true": { "submodel": { "bar_s": { "model": "betterboilers:fluid_pipe_connection", "x": 90, "y": 180 } } },
+      "false": {}
+    },
+    "west": {
+      "true": { "submodel": { "bar_w": { "model": "betterboilers:fluid_pipe_connection", "x": 90, "y": 270 } } },
+      "false": {}
+    },
+    "up": {
+      "true": { "submodel": { "bar_u": { "model": "betterboilers:fluid_pipe_connection", "x": 0 } } },
+      "false": {}
+    },
+    "down": {
+      "true": { "submodel": { "bar_d": { "model": "betterboilers:fluid_pipe_connection", "x": 180 } } },
+      "false": {}
+    },
+    "inventory": []
+  }
+}
